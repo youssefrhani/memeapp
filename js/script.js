@@ -72,11 +72,16 @@ const shareBtn = document.getElementById("shareMeme");
 
 // Clique sur "Générer un mème"
 generateButton.addEventListener("click", function () {
-  genererMeme(); // assure que le canvas est à jour
-  const dataURL = canvas.toDataURL("image/png");
-  memePreview.src = dataURL;
-  modal.style.display = "flex";
-});
+    if (!uploadedImage) {
+      alert("Veuillez d'abord télécharger une image 📸");
+      return;
+    }
+  
+    genererMeme(); // met à jour le canvas
+    const dataURL = canvas.toDataURL("image/png");
+    memePreview.src = dataURL;
+    modal.style.display = "flex";
+  });
 
 // Fermer la modale
 closeModalBtn.addEventListener("click", function () {
@@ -94,9 +99,21 @@ downloadBtn.addEventListener("click", function () {
 
 // Partager sur Twitter
 shareBtn.addEventListener("click", function () {
-  const tweetText = encodeURIComponent("Regardez ce mème que j'ai créé !");
+  const tweetText = encodeURIComponent("HAHAHAHAHA");
   const tweetURL = encodeURIComponent(window.location.href);
   const twitterURL = `https://twitter.com/intent/tweet?text=${tweetText}&url=${tweetURL}`;
   window.open(twitterURL, "_blank");
+});
+
+// Partager sur Whatsapp
+const whatsappBtn = document.getElementById("shareWhatsapp");
+
+whatsappBtn.addEventListener("click", function () {
+  const imgURL = memePreview.src;
+
+  const message = encodeURIComponent("HAHAHAHAHA !");
+  const whatsappURL = `https://wa.me/?text=${message}%20${encodeURIComponent(imgURL)}`;
+  
+  window.open(whatsappURL, "_blank");
 });
 
