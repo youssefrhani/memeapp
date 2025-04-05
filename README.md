@@ -25,7 +25,7 @@ Ce projet est une application 100% frontend qui permet d'ajouter du texte sur un
 ✔️ **Partage via :**
 - [x] WhatsApp
 - [x] Twitter
-- [x] Lien direct via [Imgur](https://imgur.com)
+
 
 
 
