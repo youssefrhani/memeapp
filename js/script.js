@@ -44,16 +44,22 @@ function genererMeme() {
   const topText = topTextInput.value.trim();
   const textColor = textColorPicker.value;
   const textSize = parseInt(textSizeSelect.value);
-
+  
+  ctx.font = `bold ${textSize}px Comic Sans MS, sans-serif`;
+  ctx.fillStyle = textColor;
+  ctx.strokeStyle = 'black';
+  ctx.lineWidth = 2;
+  ctx.textAlign = 'center';
+  
   if (topText !== '') {
-    ctx.font = `bold ${textSize}px Comic Sans MS, cursive, sans-serif`;
-    ctx.fillStyle = textColor;
-    ctx.strokeStyle = 'black';
-    ctx.lineWidth = 2;
-    ctx.textAlign = 'center';
-
-    ctx.fillText(topText, canvas.width / 2, 40);
-    ctx.strokeText(topText, canvas.width / 2, 40);
+    const lignes = topText.split('\n'); // Découpé par saut à la ligne
+    const ligneHeight = textSize + 10; // espace entre lignes
+    let startY = 40; // Position initiale
+  
+    lignes.forEach((ligne, index) => {
+      ctx.fillText(ligne, canvas.width / 2, startY + index * ligneHeight);
+      ctx.strokeText(ligne, canvas.width / 2, startY + index * ligneHeight);
+    });
   }
 }
 
