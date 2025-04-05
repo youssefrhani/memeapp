@@ -71,17 +71,31 @@ const downloadBtn = document.getElementById("downloadMeme");
 const shareBtn = document.getElementById("shareMeme");
 
 // Clique sur "Générer un mème"
+
 generateButton.addEventListener("click", function () {
     if (!uploadedImage) {
       alert("Veuillez d'abord télécharger une image 📸");
       return;
     }
   
-    genererMeme(); // met à jour le canvas
-    const dataURL = canvas.toDataURL("image/png");
-    memePreview.src = dataURL;
-    modal.style.display = "flex";
+    genererMeme(); // Assure que le dessin est à jour
+  
+    // Convert to Blob and upload to Imgur
+    canvas.toBlob(async (blob) => {
+      if (!blob) return;
+  
+      try {
+        imgURL = await uploadToImgur(blob); 
+        memePreview.src = imgURL;
+        memePreview.setAttribute('data-url', imgURL);
+        modal.style.display = "flex";
+      } catch (err) {
+        alert("Erreur lors de l’envoi vers Imgur.");
+        console.error(err);
+      }
+    }, 'image/png');
   });
+
 
 // Fermer la modale
 closeModalBtn.addEventListener("click", function () {
@@ -98,22 +112,46 @@ downloadBtn.addEventListener("click", function () {
 });
 
 // Partager sur Twitter
-shareBtn.addEventListener("click", function () {
-  const tweetText = encodeURIComponent("HAHAHAHAHA");
-  const tweetURL = encodeURIComponent(window.location.href);
-  const twitterURL = `https://twitter.com/intent/tweet?text=${tweetText}&url=${tweetURL}`;
+
+const twitterBtn = document.getElementById("shareMeme");
+
+twitterBtn.addEventListener("click", () => {
+  if (!imgURL) return alert('Mème non prêt à partager');
+
+  const tweetText = encodeURIComponent("LOOL !");
+  const twitterURL = `https://twitter.com/intent/tweet?text=${tweetText}&url=${encodeURIComponent(imgURL)}`;
   window.open(twitterURL, "_blank");
 });
 
+
 // Partager sur Whatsapp
+
 const whatsappBtn = document.getElementById("shareWhatsapp");
 
-whatsappBtn.addEventListener("click", function () {
-  const imgURL = memePreview.src;
+whatsappBtn.addEventListener("click", () => {
+  if (!imgURL) return alert('Mème non prêt à partager');
 
-  const message = encodeURIComponent("HAHAHAHAHA !");
+  const message = encodeURIComponent("LOL");
   const whatsappURL = `https://wa.me/?text=${message}%20${encodeURIComponent(imgURL)}`;
-  
   window.open(whatsappURL, "_blank");
 });
 
+async function uploadToImgur(blob) {
+    const formData = new FormData();
+    formData.append('image', blob);
+  
+    const response = await fetch('https://api.imgur.com/3/image', {
+      method: 'POST',
+      headers: {
+        Authorization: 'Client-ID' 
+      },
+      body: formData
+    });
+  
+    const result = await response.json();
+    if (result.success) {
+      return result.data.link;
+    } else {
+      throw new Error("L'upload vers Imgur a échoué.");
+    }
+  }

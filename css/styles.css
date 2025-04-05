@@ -128,3 +128,24 @@ canvas {
   font-weight: bold;
   margin-bottom: 10px;
 }
+
+/* Bouton GitHub en haut de page */
+.github-link-top {
+  text-align: center;
+  padding: 15px 0;
+  background-color: #f0f2f5;
+}
+
+.github-button {
+  background-color: #24292e; /* GitHub color */
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.github-button:hover {
+  background-color: #000000;
+}
