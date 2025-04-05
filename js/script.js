@@ -1,4 +1,4 @@
-// 🎉 Récupération des éléments HTML
+//  Récupération des éléments HTML
 const imageUpload = document.getElementById('imageUpload');
 const topTextInput = document.getElementById('topText');
 const generateButton = document.querySelector('.generate-btn');
@@ -9,7 +9,7 @@ const ctx = canvas.getContext('2d');
 
 let uploadedImage = null;
 
-// 📸 Quand une image est sélectionnée
+//  Quand une image est sélectionnée
 imageUpload.addEventListener('change', function () {
   const file = this.files[0];
   if (!file) return;
@@ -28,13 +28,13 @@ imageUpload.addEventListener('change', function () {
   reader.readAsDataURL(file);
 });
 
-// 📤 Mise à jour du mème lors des interactions
+//  Mise à jour du mème lors des interactions
 topTextInput.addEventListener('input', genererMeme);
 textColorPicker.addEventListener('input', genererMeme);
 textSizeSelect.addEventListener('change', genererMeme);
 generateButton.addEventListener('click', genererMeme);
 
-// 🖍️ Fonction principale pour générer le mème
+//  Fonction principale pour générer le mème
 function genererMeme() {
   if (!uploadedImage) return;
 
@@ -62,4 +62,41 @@ function genererMeme() {
     });
   }
 }
+
+//  Références modale
+const modal = document.getElementById("memeModal");
+const memePreview = document.getElementById("memePreview");
+const closeModalBtn = document.getElementById("closeModal");
+const downloadBtn = document.getElementById("downloadMeme");
+const shareBtn = document.getElementById("shareMeme");
+
+// Clique sur "Générer un mème"
+generateButton.addEventListener("click", function () {
+  genererMeme(); // assure que le canvas est à jour
+  const dataURL = canvas.toDataURL("image/png");
+  memePreview.src = dataURL;
+  modal.style.display = "flex";
+});
+
+// Fermer la modale
+closeModalBtn.addEventListener("click", function () {
+  modal.style.display = "none";
+});
+
+// Télécharger l’image
+downloadBtn.addEventListener("click", function () {
+  const imgURL = canvas.toDataURL("image/png");
+  const link = document.createElement("a");
+  link.href = imgURL;
+  link.download = "mon_meme.png";
+  link.click();
+});
+
+// Partager sur Twitter
+shareBtn.addEventListener("click", function () {
+  const tweetText = encodeURIComponent("Regardez ce mème que j'ai créé !");
+  const tweetURL = encodeURIComponent(window.location.href);
+  const twitterURL = `https://twitter.com/intent/tweet?text=${tweetText}&url=${tweetURL}`;
+  window.open(twitterURL, "_blank");
+});
 
