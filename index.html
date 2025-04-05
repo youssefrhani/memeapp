@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Générateur de mèmes</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>Générateur de mèmes</h1>
+    </header>
+
+    <main>
+      <div class="controls">
+        <!-- Bouton pour charger une image -->
+        <label for="imageUpload" class="button upload-btn">📁 Télécharger une image</label>
+        <input type="file" id="imageUpload" accept="image/*" hidden />
+
+        <!-- Ligne avec champ texte + sélecteurs -->
+        <div class="text-options">
+          <textarea id="topText" placeholder="Texte ici..." rows="3"></textarea>
+          <input type="color" id="textColor" value="#FFFFFF" />
+          <select id="textSize">
+            <option value="24">24</option>
+            <option value="32" selected>32</option>
+            <option value="40">40</option>
+            <option value="48">48</option>
+          </select>
+        </div>
+
+        <!-- Bouton pour générer -->
+        <button class="button generate-btn">⚡ Générer un mème</button>
+      </div>
+
+      <!-- Zone de prévisualisation -->
+      <div class="canvas-area">
+        <canvas id="memeCanvas" width="500" height="500">
+          Votre navigateur ne prend pas en charge la balise HTML5 &lt;canvas&gt;.
+        </canvas>
+      </div>
+    </main>
+
+  </div>
+    <!-- Popup window pour telecharger l'image -->
+  <div class="modal" id="memeModal">
+    <div class="modal-content">
+      <span class="close-button" id="closeModal">&times;</span>
+      <img id="memePreview" alt="Aperçu du mème généré" />
+      <div class="modal-buttons">
+        <button class="button" id="downloadMeme">
+          📥 Télécharger
+        </button>
+        <button class="button" id="shareMeme">
+          📤 Partager
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script principal -->
+  <script src="js/script.js"></script>
+
+
+</body>
+</html>
